@@ -51,7 +51,7 @@ except:
     device = product
 
 if not depsonly:
-    print("Device %s not found. Attempting to retrieve device repository from CyanogenMod Github (http://github.com/CyanogenMod)." % device)
+    print("Device %s not found. Attempting to retrieve device repository from MarshRom Github (http://github.com/MarshRom)." % device)
 
 repositories = []
 
@@ -71,7 +71,7 @@ def add_auth(githubreq):
         githubreq.add_header("Authorization","Basic %s" % githubauth)
 
 if not depsonly:
-    githubreq = urllib.request.Request("https://api.github.com/search/repositories?q=%s+user:CyanogenMod+in:name+fork:true" % device)
+    githubreq = urllib.request.Request("https://api.github.com/search/repositories?q=%s+user:MarshRom+in:name+fork:true" % device)
     add_auth(githubreq)
     try:
         result = json.loads(urllib.request.urlopen(githubreq).read().decode())
@@ -175,12 +175,16 @@ def add_to_manifest(repositories, fallback_branch = None):
         repo_target = repository['target_path']
         print('Checking if %s is fetched from %s' % (repo_target, repo_name))
         if is_in_manifest(repo_target):
-            print('CyanogenMod/%s already fetched to %s' % (repo_name, repo_target))
+            print('MarshRom/%s already fetched to %s' % (repo_name, repo_target))
             continue
 
-        print('Adding dependency: CyanogenMod/%s -> %s' % (repo_name, repo_target))
-        project = ElementTree.Element("project", attrib = { "path": repo_target,
-            "remote": "github", "name": "CyanogenMod/%s" % repo_name })
+        print('Adding dependency: MarshRom/%s -> %s' % (repo_name, repo_target))
+        if "/%s" not in repo_name:
+            project = ElementTree.Element("project", attrib = { "path": repo_target,
+            "remote": "github", "name": "MarshRom/%s" % repo_name })
+        else:
+            project = ElementTree.Element("project", attrib = { "path": repo_target,
+            "remote": "github", "name": "" % repo_name })
 
         if 'branch' in repository:
             project.set('revision',repository['branch'])
@@ -294,4 +298,4 @@ else:
             print("Done")
             sys.exit()
 
-print("Repository for %s not found in the CyanogenMod Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device)
+print("Repository for %s not found in the MarshRom Github repository list. If this is in error, you may need to manually add it to your local_manifests/roomservice.xml." % device)

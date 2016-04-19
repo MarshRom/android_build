@@ -96,6 +96,9 @@ include $(BUILD_SYSTEM)/config.mk
 # CTS-specific config.
 -include cts/build/config.mk
 
+# CMTS-specific config.
+-include vendor/cmts/build/config.mk
+
 # This allows us to force a clean build - included after the config.mk
 # environment setup is done, but before we generate any dependencies.  This
 # file does the rm -rf inline so the deps which are all done below will
@@ -175,7 +178,7 @@ $(info $(space))
 $(info Please follow the machine setup instructions at)
 $(info $(space)$(space)$(space)$(space)https://source.android.com/source/initializing.html)
 $(info ************************************************************)
-$(error stop)
+$(info stop)
 endif
 
 # Check for the current JDK.
@@ -196,7 +199,7 @@ $(info ************************************************************)
 $(info You asked for an OpenJDK 7 build but your version is)
 $(info $(java_version_str).)
 $(info ************************************************************)
-$(error stop)
+$(info stop)
 endif # java version is not OpenJdk
 else # if requires_openjdk
 ifneq ($(shell echo '$(java_version_str)' | grep -i openjdk),)
