@@ -184,7 +184,7 @@ def add_to_manifest(repositories, fallback_branch = None):
             "remote": "github", "name": "MarshRom/%s" % repo_name })
         else:
             project = ElementTree.Element("project", attrib = { "path": repo_target,
-            "remote": "github", "name": "" % repo_name })
+            "remote": "github", "name": repo_name })
 
         if 'branch' in repository:
             project.set('revision',repository['branch'])
